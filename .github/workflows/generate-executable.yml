@@ -21,7 +21,6 @@ jobs:
         id: test
         uses: vmactions/freebsd-vm@v0
         with:
-          release: 13.0
           usesh: true
           sync: sshfs
           prepare: |
