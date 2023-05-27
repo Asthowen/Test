@@ -25,7 +25,8 @@ jobs:
           sync: sshfs
           mem: 2048
           prepare: |
-            pkg install -y node npm sudo openssl-devel
+            pkg update -f
+            pkg install -y node npm sudo openssl
           run: |
             sudo chmod -R 777 ./
             sudo chown -R $USER:$GROUP ~/.npm
