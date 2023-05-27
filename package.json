@@ -1,0 +1,23 @@
+{
+  "name": "pupflare",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jsesc": "^3.0.2",
+    "koa": "^2.14.1",
+    "koa-bodyparser": "^4.3.0",
+    "puppeteer": "^19.7.1",
+    "puppeteer-extra": "^3.3.4",
+    "puppeteer-extra-plugin-stealth": "2.11.2"
+  },
+  "bin": {
+    "pupflare": "index.js"
+  }
+}

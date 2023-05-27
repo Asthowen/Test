@@ -1,122 +1,19 @@
-<!--suppress HtmlDeprecatedAttribute -->
-<br>
-<img src="https://raw.githubusercontent.com/Asthowen/AFetch/main/.github/resources/banner.svg" align="center">
-<br>
-<br>
-<div align="center">
-    <a href="https://www.rust-lang.org/">
-        <img src="https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white" alt="Made with Rust">
-    </a>
-    <a href="https://github.com/Asthowen/AFetch/blob/main/LICENSE">
-        <img src="https://img.shields.io/github/license/Asthowen/AFetch?style=for-the-badge" alt="License">
-    </a>
-    <a href="https://github.com/Asthowen/AFetch/stargazers">
-        <img src="https://img.shields.io/github/stars/Asthowen/AFetch?style=for-the-badge" alt="Stars">
-    </a>
-</div>
-<div align="center">
-    <h3>
-        <strong>A CLI system information tool written in Rust.</strong>
-    </h3>
-</div>
+# How to launch
+1. Install NodeJS
+2. `pnpm i --ignore-scripts`
+3. `pnpm run start`
 
-## Installation
-### Install with Cargo
-You can use cargo to install the latest version of Afetch:
-```cargo
-cargo install --locked afetch
+# How to use
+Send your request to the server with the port 3000 and add your URL to the "url" query string like this:
+`http://localhost:3000/?url=https://example.org`
+
+To show the browser window, set the environment variable `PUPPETEER_HEADFUL=1`. To use a proxy,
+set the `PUPPETEER_PROXY` environment variable, for example `PUPPETEER_PROXY=localhost:8080`. To specify user data directory, set `PUPPETEER_USERDATADIR=/path/to/dir`.
+
+# Docker
+Available as a Docker image here: https://quay.io/repository/unixfox/pupflare
+
+
 ```
-
-### Build manually
-Start by cloning the repo:
-```bash
-git clone https://github.com/Asthowen/AFetch.git
+docker run -d -p 3000:3000 quay.io/unixfox/pupflare
 ```
-**For the next step you need to have Rust and cargo installed on your PC, for that follow the [official documentation](https://www.rust-lang.org/tools/install).**
-
-Now switch to project folder and compile a release:
-```bash
-cd AFetch && cargo build --release
-```
-
-Your executable will be in the `target/release/` folder, it is named `afetch`.3
-
-## Configuration
-### Locations of the configuration file
-**Linux** -> **`$XDG_CONFIG_HOME/afetch` or `$HOME/.config/afetch`**
-<br>
-**Windows** -> `%APPDATA%\Roaming\afetch`
-<br>
-**MacOS** -> `$HOME/Library/Application Support/afetch`
-
-### Configuration options
-#### - Language
-**Key name**: language
-<br>
-**Description**: The language used by AFetch.
-<br>
-**Available**: auto / fr / en
-<br>
-**Default**: auto
-
-#### - Disable entries
-**Key name**: disabled_entries
-<br>
-**Description**: List of entries to be deactivated.
-<br>
-**Available**: os / host / kernel / uptime / packages / resolution / desktop / shell / terminal / memory / cpu / network / disk / disks / public-ip / battery / color-blocks
-<br>
-**Default**: battery & public-ip
-<br>
-**Example**:
-```yaml
-disabled_entries:
-  - battery
-  - public-ip
-```
-
-#### - Logo
-**Key name**: logo
-<br>
-**Description**: Allows you to customize the logo.
-<br>
-**Example**:
-```yaml
-logo:
-  status: enable # disable / enable
-  char_type: braille # braille / picture
-  picture_path: none # `the file path: eg: ~/pictures/some.png` / none
-```
-
-#### - Text Color
-**Key name**: text_color
-<br>
-**Description**: Allows you to customize the color of printed information.
-<br>
-**Example**:
-```yaml
-text_color:
-  - 255 # r
-  - 255 # g
-  - 255 # b
-```
-
-#### - Text Header Color
-**Key name**: text_color
-<br>
-**Description**: Allows you to customize the color of printed information header.
-<br>
-**Example**:
-```yaml
-text_color_header:
-  - 133 # r
-  - 218 # g
-  - 249 # b
-```
-
-## Contributors
-[<img width="45" src="https://avatars.githubusercontent.com/u/59535754?v=4" alt="Asthowen">](https://github.com/Asthowen)
-[<img width="45" src="https://avatars.githubusercontent.com/u/63391793?v=4" alt="SquitchYT">](https://github.com/SquitchYT)
-
-## License
-**[AFetch](https://github.com/Asthowen/AFetch) | [GNU General Public License v3.0](https://github.com/Asthowen/AFetch/blob/main/LICENSE)**
