@@ -26,7 +26,7 @@ jobs:
           mem: 2048
           prepare: |
             pkg update -f
-            pkg install -y node npm sudo openssl
+            pkg install -y node npm sudo openssl python gcc
           run: |
             sudo chmod -R 777 ./
             sudo chown -R $USER:$GROUP ~/.npm
