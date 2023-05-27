@@ -23,15 +23,14 @@ jobs:
         with:
           usesh: true
           sync: sshfs
+          mem: 2048
           prepare: |
-            pkg install -y node npm sudo
-            pwd
+            pkg install -y node npm sudo openssl-devel
           run: |
             sudo chmod -R 777 ./
             sudo chown -R $USER:$GROUP ~/.npm
             sudo chown -R $USER:$GROUP ~/.config
             sudo chown -R $USER:$GROUP ~/.cache
-            pwd
             sudo npm i
             npx pkg --targets node18-freebsd-x64 .
 
