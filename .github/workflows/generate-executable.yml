@@ -17,18 +17,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-    - name: Build package
-      id: test
-      uses: vmactions/freebsd-vm@v0
-      with:
-        release: 13.0
-        usesh: true
-        sync: sshfs
-        prepare: |
-          pkg install -y node npm
-          npm i
-        run: |
-          pkg --targets node18-freebsd-x64 .
+      - name: Build package
+        id: test
+        uses: vmactions/freebsd-vm@v0
+        with:
+          release: 13.0
+          usesh: true
+          sync: sshfs
+          prepare: |
+            pkg install -y node npm
+            npm i
+          run: |
+            pkg --targets node18-freebsd-x64 .
 
       - name: Upload executable to release
         uses: softprops/action-gh-release@v1
