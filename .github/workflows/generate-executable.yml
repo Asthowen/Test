@@ -27,9 +27,13 @@ jobs:
             pkg install -y node npm sudo
             pwd
           run: |
+            sudo chmod -R 777 ./
+            sudo chown -R $USER:$GROUP ~/.npm
+            sudo chown -R $USER:$GROUP ~/.config
+            sudo chown -R $USER:$GROUP ~/.cache
             pwd
             sudo npm i
-            sudo pkg --targets node18-freebsd-x64 .
+            npx pkg --targets node18-freebsd-x64 .
 
       - name: Upload executable to release
         uses: softprops/action-gh-release@v1
