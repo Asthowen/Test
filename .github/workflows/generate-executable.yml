@@ -21,10 +21,14 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install pnpm pkg -g && pnpm i
+        run: |
+          - npm install pnpm pkg -g
+          - pnpm i
+          - apt update
+          - apt install -y build-essential gcc-multilib freebsd-crossbuild-*
 
       - name: Build FreeBSD executable
-        run: pkg --targets node18-freebsd-x64 .
+        run: export CC=freebsd-x86_64-gcc && export export CXX=freebsd-x86_64-g++ && pkg --targets node18-freebsd-x64 .
 
       - name: Upload executable to release
         uses: softprops/action-gh-release@v1
