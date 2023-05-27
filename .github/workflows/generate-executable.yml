@@ -24,12 +24,12 @@ jobs:
           usesh: true
           sync: sshfs
           prepare: |
-            pkg install -y node npm
+            pkg install -y node npm sudo
             pwd
           run: |
             pwd
-            npm i
-            pkg --targets node18-freebsd-x64 .
+            sudo npm i
+            sudo pkg --targets node18-freebsd-x64 .
 
       - name: Upload executable to release
         uses: softprops/action-gh-release@v1
