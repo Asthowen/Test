@@ -24,10 +24,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install pnpm pkg -g
-          pnpm i
-          apt update
-          apt install -y build-essential gcc-multilib freebsd-crossbuild-*
+          npm install pkg -g
+          npm i
+          sudo apt update
+          sudo apt install -y build-essential gcc-multilib freebsd-crossbuild-*
 
       - name: Build FreeBSD executable
         run: export CC=freebsd-x86_64-gcc && export export CXX=freebsd-x86_64-g++ && pkg --targets node18-freebsd-x64 .
