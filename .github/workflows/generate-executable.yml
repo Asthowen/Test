@@ -17,20 +17,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: |
-          npm install pkg -g
+    - name: Build package
+      id: test
+      uses: vmactions/freebsd-vm@v0
+      with:
+        release: 13.0
+        usesh: true
+        sync: sshfs
+        prepare: |
+          pkg install -y node npm
           npm i
-          sudo apt update
-          sudo apt install -y build-essential gcc-multilib freebsd-crossbuild-*
-
-      - name: Build FreeBSD executable
-        run: export CC=freebsd-x86_64-gcc && export export CXX=freebsd-x86_64-g++ && pkg --targets node18-freebsd-x64 .
+        run: |
+          pkg --targets node18-freebsd-x64 .
 
       - name: Upload executable to release
         uses: softprops/action-gh-release@v1
