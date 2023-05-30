@@ -28,9 +28,6 @@ jobs:
             pkg update -f
             pkg install -y node npm sudo openssl python gcc
             pkg install -yr FreeBSD lang/gcc devel/binutils devel/git@tiny www/npm-node16 lang/python
-            ln -s /usr/local/bin/gmake ${TMPDIR}/make
-            ln -s /usr/local/bin/gcc ${TMPDIR}/cc
-            ln -s /usr/local/bin/g++ ${TMPDIR}/c++
           run: |
             sudo chmod -R 777 ./
             sudo chown -R $USER:$GROUP ~/.npm
