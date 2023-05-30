@@ -27,13 +27,22 @@ jobs:
           prepare: |
             pkg update -f
             pkg install -y node npm sudo openssl python gcc
+            pkg install -yr FreeBSD lang/gcc devel/binutils devel/git@tiny www/npm-node16 lang/python
+            export TMPDIR=$(mktemp -d -t tailwind)
+            export NPM_CONFIG_CACHE=${TMPDIR}/.npm
+            export PKG_CACHE_PATH=${TMPDIR}/.pkg-cache
+            export TAILWIND=${TMPDIR}/src
+            ln -s /usr/local/bin/gmake ${TMPDIR}/make
+            ln -s /usr/local/bin/gcc ${TMPDIR}/cc
+            ln -s /usr/local/bin/g++ ${TMPDIR}/c++
+            export PATH=${TMPDIR}:$PATH
           run: |
             sudo chmod -R 777 ./
             sudo chown -R $USER:$GROUP ~/.npm
             sudo chown -R $USER:$GROUP ~/.config
             sudo chown -R $USER:$GROUP ~/.cache
             sudo npm i
-            npx pkg --targets node18-freebsd-x64 .
+            npx pkg --target node16-freebsd-x64 --no-bytecode .
 
       - name: Upload executable to release
         uses: softprops/action-gh-release@v1
