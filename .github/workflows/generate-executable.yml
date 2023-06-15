@@ -27,13 +27,18 @@ jobs:
           prepare: |
             pkg update -f
             pkg install -y node npm sudo openssl python gcc
-            pkg install -yr FreeBSD lang/gcc devel/binutils devel/git@tiny www/npm-node16 lang/python
+            pkg install -yr FreeBSD lang/gcc devel/binutils devel/git@tiny www/npm-node16 lang/python3
+            mv /usr/bin/cc /usr/bin/cc.disabled
+            mv /usr/bin/c++ /usr/bin/c++.disabled
+            ln -s /usr/local/bin/gcc /usr/local/bin/cc
+            ln -s /usr/local/bin/g++ /usr/local/bin/c++
           run: |
             sudo chmod -R 777 ./
             sudo chown -R $USER:$GROUP ~/.npm
             sudo chown -R $USER:$GROUP ~/.config
             sudo chown -R $USER:$GROUP ~/.cache
             sudo npm i
+            /usr/local/bin/pkg  --public --no-bytecode -t node14-freebsd-x64 -d .
             npx pkg --target node16-freebsd-x64 --no-bytecode .
 
       - name: Upload executable to release
