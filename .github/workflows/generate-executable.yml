@@ -38,8 +38,7 @@ jobs:
             sudo chown -R $USER:$GROUP ~/.config
             sudo chown -R $USER:$GROUP ~/.cache
             sudo npm i
-            /usr/local/bin/pkg  --public --no-bytecode -t node14-freebsd-x64 -d .
-            npx pkg --target node16-freebsd-x64 --no-bytecode .
+            /usr/local/bin/pkg --target node16-freebsd-x64 --no-bytecode .
 
       - name: Upload executable to release
         uses: softprops/action-gh-release@v1
