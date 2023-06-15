@@ -26,7 +26,7 @@ jobs:
           mem: 2048
           prepare: |
             pkg update -f
-            pkg install -y node npm sudo openssl python gcc chromium
+            pkg install -y node npm sudo openssl python gcc
             pkg install -yr FreeBSD lang/gcc devel/binutils devel/git@tiny www/npm-node16 lang/python3
             mv /usr/bin/cc /usr/bin/cc.disabled
             mv /usr/bin/c++ /usr/bin/c++.disabled
@@ -37,8 +37,9 @@ jobs:
             sudo chown -R $USER:$GROUP ~/.npm
             sudo chown -R $USER:$GROUP ~/.config
             sudo chown -R $USER:$GROUP ~/.cache
+            setenv PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
             PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true sudo npm i
-            /usr/local/bin/pkg --target node16-freebsd-x64 --no-bytecode .
+            npx pkg --target node16-freebsd-x64 --no-bytecode .
 
       - name: Upload executable to release
         uses: softprops/action-gh-release@v1
