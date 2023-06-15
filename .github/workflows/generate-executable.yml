@@ -23,7 +23,7 @@ jobs:
         with:
           usesh: true
           sync: sshfs
-          mem: 2048
+          mem: 4096
           prepare: |
             pkg update -f
             pkg install -y node npm sudo openssl python gcc
