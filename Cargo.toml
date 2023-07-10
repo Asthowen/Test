@@ -6,6 +6,3 @@ edition = "2021"
 
 [dependencies]
 mysqlclient-sys = "0.2.5" # dependency of diesel's mysql feature
-env = {
-    "MYSQLCLIENT_LIB_DIR" = "./mysql"
-}

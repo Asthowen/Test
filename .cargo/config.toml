@@ -1,0 +1,2 @@
+[env]
+MYSQLCLIENT_LIB_DIR = "./mysql" 
