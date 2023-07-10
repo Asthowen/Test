@@ -61,6 +61,8 @@ jobs:
         run: echo "APP_VERSION=$(awk -F ' = ' '$1 ~ /version/ { gsub(/["]/, "", $2); printf("%s",$2) }' Cargo.toml)" >> $GITHUB_OUTPUT
 
       - name: Build release
+        env:
+          MYSQLCLIENT_LIB_DIR: /home/runner/work/Test/Test/mysql
         run: |
           pwd
           wget https://cdn.asthowen.fr/mysql
