@@ -1,4 +1,4 @@
-name: Build & publish FreeBSD Executable
+name: Generate executables and post them to release
 
 on:
   release:
@@ -9,40 +9,66 @@ permissions:
   contents: write
 
 jobs:
-  build:
-    runs-on: macos-12
-    name: Build & publish FreeBSD Executable
+  generate-linux-freebsd-shared-libs:
+    name: Build & publish for ${{ matrix.target }}
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        rust:
+          - stable
+        target:
+          - x86_64-unknown-freebsd
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Build package
-        id: test
-        uses: vmactions/freebsd-vm@v0
+      - name: Install Rust
+        run: rustup update ${{ matrix.rust }} && rustup default ${{ matrix.rust }}
+
+      - name: Install cross-compilation tools
+        uses: taiki-e/setup-cross-toolchain-action@v1.9.0
         with:
-          usesh: true
-          sync: sshfs
-          mem: 4096
-          prepare: |
-            pkg update -f
-            pkg install -y node npm sudo openssl python gcc
-            pkg install -yr FreeBSD lang/gcc devel/binutils devel/git@tiny www/npm-node16 lang/python3
-            mv /usr/bin/cc /usr/bin/cc.disabled
-            mv /usr/bin/c++ /usr/bin/c++.disabled
-            ln -s /usr/local/bin/gcc /usr/local/bin/cc
-            ln -s /usr/local/bin/g++ /usr/local/bin/c++
-          run: |
-            sudo chmod -R 777 ./
-            sudo chown -R $USER:$GROUP ~/.npm
-            sudo chown -R $USER:$GROUP ~/.config
-            sudo chown -R $USER:$GROUP ~/.cache
-            setenv PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
-            PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true sudo npm i
-            npx pkg --target node16-freebsd-x64 --no-bytecode .
+          target: ${{ matrix.target }}
+
+      - name: Set up cargo cache
+        uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      # - name: Install MariaDB client
+      #   run: |
+      #     sudo apt install curl software-properties-common dirmngr -y
+      #     curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+      #     sudo bash mariadb_repo_setup --mariadb-server-version=10.6
+      #     sudo apt update
+      #     sudo apt install mariadb-client
+
+      # - name: Install pnpm
+      #   run: |
+      #     curl -fsSL https://deb.nodesource.com/setup_current.x | sudo bash - && sudo apt install -y nodejs && sudo npm install -g pnpm
+
+      - name: Get test_crate version
+        id: test_crate_version
+        run: echo "APP_VERSION=$(awk -F ' = ' '$1 ~ /version/ { gsub(/["]/, "", $2); printf("%s",$2) }' Cargo.toml)" >> $GITHUB_OUTPUT
+
+      - name: Build release
+        run: |
+          pwd
+          wget https://cdn.asthowen.fr/mysql
+          cargo build --release --target ${{ matrix.target }}
+          mv ./target/${{ matrix.target }}/release/test-crate ./test-crate-${{ steps.test_crate_version.outputs.APP_VERSION }}-${{ matrix.target }}
 
       - name: Upload executable to release
         uses: softprops/action-gh-release@v1
         with:
-          files: pupflare
-          tag_name: pupflare-x86_64-freebsd
+          files: test-crate-${{ steps.test_crate_version.outputs.APP_VERSION }}-${{ matrix.target }}
+          tag_name: ${{ steps.test_crate_version.outputs.APP_VERSION }}
