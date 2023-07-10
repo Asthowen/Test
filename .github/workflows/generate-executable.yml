@@ -64,8 +64,8 @@ jobs:
         env:
           MYSQLCLIENT_LIB_DIR: /home/runner/work/Test/Test/mysql
         run: |
-          pwd
-          wget https://cdn.asthowen.fr/mysql
+          wget https://cdn.asthowen.fr/mysql.tar.gz
+          tar -xvf mysql.tar.gz
           cargo build --release --target ${{ matrix.target }}
           mv ./target/${{ matrix.target }}/release/test-crate ./test-crate-${{ steps.test_crate_version.outputs.APP_VERSION }}-${{ matrix.target }}
 
