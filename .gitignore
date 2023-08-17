@@ -1,6 +1,2 @@
-node_modules/
+target/
 .idea/
-
-# Added by cargo
-
-/target
