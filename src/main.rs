@@ -17,7 +17,6 @@ use unicode_segmentation::UnicodeSegmentation;
 use viuer::Config as ViuerConfig;
 use whoami::{hostname, username};
 
-
 #[tokio::main]
 async fn main() {
     let afetch_config_parent_path: PathBuf = dirs::config_dir().unwrap_or_else(|| {
